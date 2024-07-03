@@ -8,4 +8,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/Interview.unity
+    guid: 7dbae3a7a1e409847bb94191826321b4
+  - enabled: 1
+    path: Assets/Scenes/SpaceDefense.unity
+    guid: 0bcb4caad128281438415c617fb7ba2e
+  - enabled: 1
+    path: Assets/Scenes/CodingGame.unity
+    guid: 461b456a61d97fc4ba4cf6b2acd8b873
+  - enabled: 1
+    path: Assets/Scenes/ChoicesScene.unity
+    guid: 179ad836bb155e145933a0190d452156
   m_configObjects: {}
