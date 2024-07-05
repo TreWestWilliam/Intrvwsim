@@ -10227,12 +10227,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2062966032}
+  m_Father: {fileID: 2072174783}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.5, y: -63.875}
-  m_SizeDelta: {x: 205.00839, y: -61.2495}
+  m_AnchoredPosition: {x: -2.0549, y: -0.0000076294}
+  m_SizeDelta: {x: 4.1097, y: 0.000015259}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1391580145
 MonoBehaviour:
@@ -12188,10 +12188,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1200, y: 800}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -14380,8 +14380,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 5, y: 6.4064}
-  m_SizeDelta: {x: 911.6829, y: 441.1871}
+  m_AnchoredPosition: {x: 58.8997, y: 6.4064}
+  m_SizeDelta: {x: 1020.2965, y: 441.1871}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1970174199
 MonoBehaviour:
@@ -14517,12 +14517,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 11
+  m_fontSize: 11.4
   m_fontSizeBase: 11
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 10
+  m_fontSizeMax: 24
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
@@ -14553,7 +14553,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 0, w: 41.494293}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -15482,7 +15482,6 @@ RectTransform:
   - {fileID: 81303264}
   - {fileID: 2090935269}
   - {fileID: 2072174783}
-  - {fileID: 1391580144}
   - {fileID: 636121228}
   - {fileID: 2015980146}
   - {fileID: 632554434}
@@ -15519,18 +15518,31 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2064126621}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 648bd91faa17dde4ca1b903451f21876, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TextOut: {fileID: 1549485666}
   SoundPlayer: {fileID: 0}
+  CurrentDialogue:
+    Type: 0
+    Text: 
   _State: 0
   SpeakingClips: []
   IsSpeaking: 0
   CurrentAnimator: {fileID: 0}
   TextSpeed: 0.25
+  points: 0
+  TextTab: {fileID: 0}
+  TwoChoices: {fileID: 0}
+  FourChoices: {fileID: 0}
+  TwosChoice1: {fileID: 0}
+  TwosChoice2: {fileID: 0}
+  Choice1: {fileID: 0}
+  Choice2: {fileID: 0}
+  Choice3: {fileID: 0}
+  Choice4: {fileID: 0}
 --- !u!4 &2064126623
 Transform:
   m_ObjectHideFlags: 0
@@ -15577,7 +15589,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1391580144}
   m_Father: {fileID: 2062966032}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -15606,7 +15619,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 0}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.16470589}
     m_HighlightedColor: {r: 0.52100056, g: 0.6415094, b: 0.493236, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -15649,7 +15662,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: 1d60f50a4933ba743bb57d06d21f46c3, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -15658,7 +15671,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 20
 --- !u!222 &2072174786
 CanvasRenderer:
   m_ObjectHideFlags: 0
