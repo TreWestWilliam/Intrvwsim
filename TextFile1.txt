@@ -1,0 +1,6 @@
+
+
+public bool ShouldSmashSister(bool IsHot)
+{
+	return IsHot;
+}

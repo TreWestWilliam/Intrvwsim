@@ -8,6 +8,7 @@ public class Dialogue
     public string Text;
     public Character _Character;
     public Dialogue Next;
+    public FGBG _FGBG;
    
 
     //For Choices
@@ -58,13 +59,18 @@ public class Dialogue
 public enum DialogueType 
 { 
     text,
+    soundeffect,
     choiceTwo,
     choiceFour,
     halt,
     SpaceMinigame,
     CodingMinigame,
     ChoicesMinigame,
-    minigame_one
+    minigame_one,
+    cutscene,
+    final,
+    calcEnding,
+    blankLoad
 }
 
 public struct DialogueChoice 
@@ -72,6 +78,13 @@ public struct DialogueChoice
     public string _Text;
     public ChoiceType type;
     public Dialogue NextDialogue;
+
+    public DialogueChoice (string MyText, ChoiceType MyType, Dialogue MyNextDialogue ) 
+    {
+        _Text = MyText;
+        type = MyType;
+        NextDialogue = MyNextDialogue;
+    }
     
 }
 

@@ -6,19 +6,24 @@ public class OpenWebsite : MonoBehaviour
 {
     public static void OpenTwitch() 
     {
-        System.Diagnostics.Process.Start("https://twitch.tv/hachiski");
+        Application.OpenURL("https://twitch.tv/hachiski");
     }
     public static void OpenYoutube()
     {
-        System.Diagnostics.Process.Start("https://youtube.com/@Hachiski");
+        Application.OpenURL("https://youtube.com/@Hachiski");
     }
     public static void OpenKoFi()
     {
-        System.Diagnostics.Process.Start("https://ko-fi.com/hachiski");
+        Application.OpenURL("https://ko-fi.com/hachiski");
     }
     public static void OpenTwitter()
     {
-        System.Diagnostics.Process.Start("https://x.com/HachiskiYT");
+        Application.OpenURL("https://x.com/HachiskiYT");
     }
+    public static void OpenMySite() 
+    {
+        Application.OpenURL("https://hachiski.com");
+    }
+
 
 }

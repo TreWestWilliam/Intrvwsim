@@ -7,6 +7,7 @@ public class StartingMenu : MonoBehaviour
 {
     public string JobTitle;
     public string PlayersName;
+    public string PlayersNameLast;
     public string Species;
     public string Planet;
 
@@ -115,12 +116,18 @@ public class StartingMenu : MonoBehaviour
         Finished.SetActive(true);
     }
 
+    public void UpdateDialogues() 
+    {
+        Dialogues.FirstName = PlayersName;
+        Dialogues.PathName = JobTitle;
+    }
+
     public void IAmQualified() { IsQualified = true; }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        DontDestroyOnLoad(gameObject);
     }
 
     // Update is called once per frame
