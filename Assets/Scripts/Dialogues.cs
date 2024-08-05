@@ -275,7 +275,7 @@ public class Dialogues : MonoBehaviour
         Two.dialogueChoices = new DialogueChoice[2];
         Two.dialogueChoices[0] = new("Yes", ChoiceType.placebo, Three);
         Two.dialogueChoices[1] = new DialogueChoice("Yeah?", ChoiceType.placebo, Three);
-
+        One.Next = Two;
         Dialogue Four = new("And then her husband works over in Navigation like how nice is that?!  Ahhh if only Jeremy wasn’t such a cheating bee y’know.  Oh you don’t know Jeremy.");
         Three.Next = Four;
         Dialogue Five = new("Jeremy was my like boyfriend for two months when he got me this job but when I started working here and thought I’d see him more but like since he was the captain he never spent time with me.");
@@ -285,12 +285,16 @@ public class Dialogues : MonoBehaviour
         Dialogue Seven = new("Alright, he totally deserved it, ya?");
         Six.Next = Seven;
         Dialogue Eight = new(DialogueType.choiceTwo);
+        Seven.Next = Eight;
         Dialogue Nine = new("Mhm mhm alright alright I like you.  Hmm…  Think I should like get you ready to be part of the family.  You single?  I can like hook you up with Bob in tech support, he’s such a sweetheart he’ll be like your little puppy of a boy.  Sound good?");
         Eight.dialogueChoices = new DialogueChoice[2];
         Eight.dialogueChoices[0] = new DialogueChoice("Yes.", ChoiceType.placebo, Nine);
         Eight.dialogueChoices[1] = new DialogueChoice("Slay.", ChoiceType.placebo, Nine);
         Dialogue Ten = new("Haahah, okay, okay nice.");
+        
         Dialogue NineChoice = new Dialogue(DialogueType.choiceTwo);
+
+        Nine.Next = NineChoice;
         NineChoice.dialogueChoices = new DialogueChoice[2];
         NineChoice.dialogueChoices[0] = new DialogueChoice("Slay", ChoiceType.placebo, Ten);
         NineChoice.dialogueChoices[1] = new DialogueChoice("Neigh", ChoiceType.placebo, Ten);

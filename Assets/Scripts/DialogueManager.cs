@@ -56,8 +56,18 @@ public class DialogueManager : MonoBehaviour
     [Header("Foregrounds/Backgrounds")]
     public GameObject GameArt;
     public GameObject TextOverlay;
+    public FGBG IntroCutscene;
+    public FGBG HRoffice;
+    public FGBG ManagerOffice;
+    public FGBG CoderOffice;
+    public FGBG BroomCloset;
+    public FGBG Interrogation;
     public FGBG Navigation;
     public FGBG Helpdesk;
+
+    public FGBG WeirdEnding;
+    public FGBG CatnipEnding;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -72,47 +82,8 @@ public class DialogueManager : MonoBehaviour
              new("Aperture Science", new("We do what we must, because we can.",
              new("For the good of all of us, except the ones who are dead.", 
              new Dialogue(DialogueType.halt, "lol") ))))));*/
-
-        /*
-        CurrentDialogue = new Dialogue("This is a test of choices");
-        Dialogue FirstChoice = new Dialogue("You chose the first option");
-        Dialogue SecondChoice = new Dialogue("You chose the second option");
-        CurrentDialogue.Next = new Dialogue(DialogueType.choiceTwo, "First",ChoiceType.placebo,FirstChoice,"Second is Best!",ChoiceType.placebo,SecondChoice);
-        */
-        /*
-        CurrentDialogue = new Dialogue("The next Dialogue will cause the minigame to load");
-        CurrentDialogue.Next = new Dialogue(DialogueType.CodingMinigame, "Nothing here");
-        CurrentDialogue.Next.Next = new Dialogue("Wasn't that fun?!");
-        */
-        /*
-        CurrentDialogue = new Dialogue("Hello Commander Candidate and Welcome to HART!  I’m very glad to meet you as a potential candidate.  I am Korvilliath, Chief Operations Manager of Hart Intergalactic and welcome to the HART Pavillion.");
-        CurrentDialogue.Next = new Dialogue("Our vacancy for a High Commander here on the Hart Pavillion seems to be born of… Ahem… undisclosed reasons.  However, I’m sure the fellow staff here will be very welcoming to a new High Commander coming in with the experience you have.  Speaking of which, can you describe the experience which you have listed on your CV?");
-        CurrentDialogue.Next._Character = Korvilliath;
-        Dialogue Choices1 = new Dialogue(DialogueType.choiceFour);
-        CurrentDialogue.Next.Next = Choices1;
-        Dialogue Choices1_divergence1 = new Dialogue("Professional Janitor, such a noble endeavor for a man of your stature.  My father was a Janitor till the day he died, and boy, those hallways were never cleaner!");
-        Dialogue Choices1_divergence2 = new Dialogue("Such stoicism is rarely shown!  I like you already.");
-        Dialogue Choices1_convergence = new Dialogue("Anyhow, enough for pleasantries.  For this position you must prove yourself ready to deal with any number of situations.  For this we have prepared a proper simulation of a hazardous event.  You will be assessed based on how well you do.");
-        Choices1_divergence1.Next = Choices1_convergence;
-        Choices1_divergence2.Next = Choices1_convergence;
-        Choices1.dialogueChoices = new DialogueChoice[4];
-        Choices1.dialogueChoices[0] = new DialogueChoice("I am a professional Janitor from the L.E.V. Expressite, looking for my proper place.",ChoiceType.placebo,Choices1_divergence1);
-        Choices1.dialogueChoices[1] = new DialogueChoice("I was a Gunner in the Intergalactic Super Democratic Army.", ChoiceType.placebo, Choices1_convergence);
-        Choices1.dialogueChoices[2] = new DialogueChoice("I was High Commander of the D.V.D. Fairlight, but she’s since been decommissioned.", ChoiceType.placebo, Choices1_convergence);
-        Choices1.dialogueChoices[3] = new DialogueChoice("I don’t care.", ChoiceType.placebo, Choices1_divergence2);
-        Dialogue MeteorGame = new Dialogue(DialogueType.SpaceMinigame);
-        MeteorGame.dialogueChoices = new DialogueChoice[3];
-        
-        Choices1_convergence.Next = MeteorGame;
-
-        Dialogue HRStart = new Dialogue("OMG HR TIME");
-        MeteorGame.dialogueChoices[0] = new DialogueChoice("Positive", ChoiceType.addPoint, new Dialogue("Excellent resolve, I admire your skills at operating that turret.  Now I must send you over to AR for their background check.",HRStart));
-        MeteorGame.dialogueChoices[1] = new DialogueChoice("Timeout", ChoiceType.removePoint, new Dialogue("Valiant Attempt! You kept the ship safe, but could've done better.  Regardless, I'll give you a reccomendation.  Now march to AR!", HRStart));
-        MeteorGame.dialogueChoices[2] = new DialogueChoice("Death", ChoiceType.removePoint, new Dialogue("Honorable Service!  The ship may have gone down but you went out like a fighter!  Now go on over to AR for their evaluation.", HRStart));
-        //CommanderEnd.Next = HRStart;
-        */
-        CurrentDialogue = Dialogues.Programmer(this);
-        //CurrentDialogue = new(DialogueType.blankLoad);
+        //CurrentDialogue = Dialogues.Programmer(this);
+        CurrentDialogue = new(DialogueType.blankLoad);
         LoadNextDialogue(CurrentDialogue);
 
     }
@@ -211,6 +182,7 @@ public class DialogueManager : MonoBehaviour
 
     private void PlaySoundDialogue() 
     {
+        SFXPlayer.Stop();
         switch (CurrentDialogue.Text) 
         {
             case "Drumroll": SFXPlayer.PlayOneShot(SoundEffects[0]); break;
@@ -230,8 +202,8 @@ public class DialogueManager : MonoBehaviour
             case "Alien Resources": LoadNextDialogue(Dialogues.AlienResources(this)); break;
             case "Press Relations": LoadNextDialogue(Dialogues.PressRelations(this)); break;
             case "Object Orientated Organizational Programming Systems Intergalactic Engineer": LoadNextDialogue(Dialogues.Programmer(this)); break;
-            case "Assistant Manager of Tentacle Cleaning internship": break;
-            case "Senior Catnip Production Manager": break;
+            case "Assistant Manager of Tentacle Cleaning internship": LoadNextDialogue(Dialogues.TentcleCleaner(this)); break;
+            case "Senior Catnip Production Manager": LoadNextDialogue(Dialogues.CatnipProduction(this));  break;
             default: Debug.Log($"Default path reached"); break;
 
 
