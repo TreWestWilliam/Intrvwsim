@@ -1,6 +1,5 @@
 Attribution:
-Interview Simulator
-
+Intrvwsim
 
 Angela Voice:
 Figblitgafle
