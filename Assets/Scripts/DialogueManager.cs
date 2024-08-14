@@ -7,16 +7,19 @@ using TMPro;
 public class DialogueManager : MonoBehaviour
 {
     [Header("Stuff")]
+    public bool IsDebug = false;
     private int Iterator;
     public TMP_Text TextOut;
     public TMP_Text NameText;
     public AudioSource SoundPlayer;
     public AudioSource SFXPlayer;
+    public AudioSource MusicPlayer;
     private List<Dialogue> Ledger;
     public Dialogue CurrentDialogue;
     public DialogueStates _State;
     public AudioClip[] SpeakingClips;
     public AudioClip[] SoundEffects;
+    public AudioClip[] Music;
     public bool IsSpeaking = false;
     private bool StartedSounds = false;
     [Space]
@@ -51,6 +54,8 @@ public class DialogueManager : MonoBehaviour
     public Character BanthanyJanny;
     public Character WafflesSecurity;
     public Character YauwnCatnip;
+    public Character WeirdCreature;
+    public Character None;
 
 
     [Header("Foregrounds/Backgrounds")]
@@ -64,10 +69,22 @@ public class DialogueManager : MonoBehaviour
     public FGBG Interrogation;
     public FGBG Navigation;
     public FGBG Helpdesk;
-
+    [Space]
     public FGBG WeirdEnding;
+    public FGBG WeirdEnding2;
+    public FGBG WeirdEnding3;
+    public FGBG WeirdEnding4;
     public FGBG CatnipEnding;
-    
+    public FGBG ITEND1;
+    public FGBG ITEND2;
+    public FGBG ITEND3;
+    public FGBG ITEND4;
+    public FGBG ITEND5;
+    public FGBG HighCommanderEnd;
+    public FGBG JanitorEnd;
+    public FGBG NavEnd;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -82,38 +99,62 @@ public class DialogueManager : MonoBehaviour
              new("Aperture Science", new("We do what we must, because we can.",
              new("For the good of all of us, except the ones who are dead.", 
              new Dialogue(DialogueType.halt, "lol") ))))));*/
-        //CurrentDialogue = Dialogues.Programmer(this);
-        CurrentDialogue = new(DialogueType.blankLoad);
-        LoadNextDialogue(CurrentDialogue);
 
+        CurrentDialogue = new(DialogueType.cutscene, "Deep in space...");
+        CurrentDialogue.BackgroundMusic = Music[1];
+        CurrentDialogue._FGBG = IntroCutscene;
+        CurrentDialogue._Character = None;
+        CurrentDialogue.Next = new Dialogue(DialogueType.cutscene, "Your shuttle is taking you towards the HART Pavillion.  The place where your interview will be taking place.");
+        
+        Dialogue Three = new(DialogueType.cutscene, "And before you know it, a AI assistant has guided you towards where your interview will take place.");
+        CurrentDialogue.Next.Next = Three;
+        Dialogue Four = new(DialogueType.blankLoad);
+        Three.Next = Four;
+        //CurrentDialogue = Dialogues.Programmer(this);
+        //CurrentDialogue = new(DialogueType.blankLoad);
+        LoadNextDialogue(CurrentDialogue);
+        //LoadNextDialogue(Dialogues.SharedARInterview(this));
+        if (IsDebug) 
+        {
+            _State = DialogueStates.paused;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (CurrentDialogue.Type == DialogueType.text && _State == DialogueStates.talking) 
+        if (IsDebug)
         {
-            if (Iterator == 0)
+            _State = DialogueStates.paused;
+        }
+        if (CurrentDialogue.Type == DialogueType.text || CurrentDialogue.Type == DialogueType.cutscene) 
+        {
+            if (_State == DialogueStates.talking)
             {
-                AddNextCharacter();
-                SpeakSound();
-                StartedSounds = true;
+                if (Iterator == 0)
+                {
+                    AddNextCharacter();
+                    SpeakSound();
+                    StartedSounds = true;
+                }
+
+                if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+                {
+                    Ledger.Add(CurrentDialogue);
+
+                    if (Iterator < CurrentDialogue.Text.Length)
+                    {
+                        Iterator = CurrentDialogue.Text.Length;
+                        TextOut.text = CurrentDialogue.Text;
+                        SoundPlayer.Stop();
+                    }
+                    else
+                    {
+                        LoadNextDialogue(CurrentDialogue.Next);
+                    }
+                }
             }
 
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                Ledger.Add(CurrentDialogue);
-
-                if (Iterator < CurrentDialogue.Text.Length)
-                {
-                    Iterator = CurrentDialogue.Text.Length;
-                    TextOut.text = CurrentDialogue.Text;
-                }
-                else
-                {
-                    LoadNextDialogue(CurrentDialogue.Next);
-                }
-            }
         }   
     }
 
@@ -124,10 +165,19 @@ public class DialogueManager : MonoBehaviour
         Iterator = 0;
         TextOut.text = "";
         StartedSounds = false;
+        SoundPlayer.Stop();
+
 
         if (CurrentDialogue.Type != MyDialogue.Type) 
         {
             ToggleOffAllTabs();
+        }
+
+        if (MyDialogue.BackgroundMusic != null) 
+        {
+            MusicPlayer.Stop();
+            MusicPlayer.clip = MyDialogue.BackgroundMusic;
+            MusicPlayer.Play();
         }
 
         if (MyDialogue._Character != null) 
@@ -172,12 +222,85 @@ public class DialogueManager : MonoBehaviour
             case DialogueType.ChoicesMinigame: ChoicesMinigame();break;
             case DialogueType.SpaceMinigame: MeteorMinigame(); break;
             case DialogueType.CodingMinigame: CodingMinigame(); break;
-            case DialogueType.cutscene: break;
-            case DialogueType.final: break;
-            case DialogueType.calcEnding:break;
+            case DialogueType.cutscene: CutsceneMode(); break;
+            case DialogueType.final: FinalDialogue(); break;
+            case DialogueType.calcEnding:CalculateEnding(); break;
             case DialogueType.blankLoad:LoadBlank(); break;
             case DialogueType.soundeffect:PlaySoundDialogue(); break;
         }
+    }
+
+    private void FinalDialogue() 
+    {
+        Dialogues.EndingName = CurrentDialogue.Text;
+        SceneManager.LoadSceneAsync(5, LoadSceneMode.Single);
+    }
+
+    private void CalculateEnding() 
+    {
+        //Jobs that always lead to a certain result
+        switch (Dialogues.PathName) 
+        {
+            case "High Commander": CalcHCEnd(); break;
+            case "Intergalactic Systems Operator": LoadNextDialogue(Dialogues.ISOEnd(this));  break;
+            case "Information Technology Helpdesk Punching Bag and Ticket Escalation Agent": LoadNextDialogue(Dialogues.ITEnding(this)); break;
+            case "Alien Resources": CalcAREnd(); break;
+            case "Press Relations": LoadNextDialogue(Dialogues.BadEnding(this));  break;
+            case "Object Orientated Organizational Programming Systems Intergalactic Engineer": LoadNextDialogue(Dialogues.ProgrammerEnding(this)); break;
+            case "Assistant Manager of Tentacle Cleaning internship": LoadNextDialogue(Dialogues.JanitorEnd(this));  break;
+            case "Senior Catnip Production Manager": CalcCatnipEnd();  break;
+        }
+
+
+        //Jobs that need more
+    }
+
+    private void CalcHCEnd() 
+    {
+        if (points > 100)
+        {
+            LoadNextDialogue(Dialogues.HCEnd(this));
+        }
+        else 
+        {
+            LoadNextDialogue(Dialogues.BadEnding(this));
+        }
+    }
+
+    private void CalcCatnipEnd() 
+    {
+        if (points < 3)
+        {
+            LoadNextDialogue(Dialogues.BadEnding(this));
+        }
+        else 
+        {
+            LoadNextDialogue(Dialogues.CatnipEnd(this));
+        }
+    }
+    private void CalcAREnd() 
+    {
+        if (points >= 2)
+        {
+            LoadNextDialogue(Dialogues.AREnd(this));
+        }
+        else 
+        {
+            LoadNextDialogue(Dialogues.BadEnding(this));
+        }
+    }
+
+    private void CutsceneMode() 
+    {
+        NameText.gameObject.SetActive(false);
+        TextTab.gameObject.SetActive(true);
+
+        if (CurrentDialogue._Character == null) 
+        {
+            SpeakerSpriteRenderer.sprite = null;
+            SpeakingClips = None.SpeakingSounds;
+        }
+
     }
 
     private void PlaySoundDialogue() 
@@ -306,25 +429,34 @@ public class DialogueManager : MonoBehaviour
     private void ToggleOffAllTabs() 
     {
         TextTab.SetActive(false);
+        NameText.gameObject.SetActive(true);
         TwoChoices.SetActive(false);
         FourChoices.SetActive(false);
     }
 
     private void AddNextCharacter() 
     {
-        if (Iterator < CurrentDialogue.Text.Length)
+        if (_State == DialogueStates.talking)
         {
-            TextOut.text += CurrentDialogue.Text.ToCharArray()[Iterator];
-            Iterator++;
-            CurrentAnimator.SetBool("IsTalking", true);
-            IsSpeaking = true;
+            if (Iterator < CurrentDialogue.Text.Length)
+            {
+                TextOut.text += CurrentDialogue.Text.ToCharArray()[Iterator];
+                Iterator++;
+                CurrentAnimator.SetBool("IsTalking", true);
+                IsSpeaking = true;
+                Invoke(nameof(AddNextCharacter), TextSpeed);
+            }
+            else
+            {
+                CurrentAnimator.SetBool("IsTalking", false);
+                IsSpeaking = false;
+            }
+        }
+        else 
+        {
             Invoke(nameof(AddNextCharacter), TextSpeed);
         }
-        else
-        {
-            CurrentAnimator.SetBool("IsTalking", false);
-            IsSpeaking = false;
-        }
+        
     }
 
     public void SpeakSound() 
@@ -335,7 +467,7 @@ public class DialogueManager : MonoBehaviour
             return; 
         } 
 
-        if (SpeakingClips.Length > 0)
+        if (SpeakingClips.Length > 0  && _State == DialogueStates.talking)
         {
             int SoundChoice = Random.Range(0, SpeakingClips.Length);
             SoundPlayer.PlayOneShot(SpeakingClips[SoundChoice]);

@@ -9,6 +9,7 @@ public class Dialogue
     public Character _Character;
     public Dialogue Next;
     public FGBG _FGBG;
+    public AudioClip BackgroundMusic;
    
 
     //For Choices
